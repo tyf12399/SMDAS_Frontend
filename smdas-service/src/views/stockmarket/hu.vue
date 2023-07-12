@@ -12,15 +12,34 @@ export default{
       username:'',
       password:'',
       tableData: [{
-            date: '2016-05-02',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄'
+            hustockid: '2016-05-02',
+            hucompanyname: '王小虎',
+            hudate: '上海市普陀区金沙江路 1518 弄',
+            huamount:20000,
+            husales: 200333,
+            huprice: 200333,
+            huopenprice: 200333,
+            hucloseprice: 200333,
+            huhighprice: 200333,
+            hulowprice: 200333,
+            huincrease: -1.0,
+
           },
           {
-            date: '2016-05-02',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄'
+            hustockid: '2016-05-02',
+            hucompanyname: '王小虎',
+            hudate: '上海市普陀区金沙江路 1518 弄',
+            huamount:200000,
+            husales: 20,
+            huprice: 2003,
+            huopenprice: 2033,
+            hucloseprice: 2033,
+            huhighprice: 2333,
+            hulowprice: 2033,
+            huincrease: 0.2,
+
           },
+          
       ],
       datatest:[
         {
@@ -98,7 +117,7 @@ export default{
     },
     goshen:function(){
       //跳转到深市页面
-      this.$router.push({path:'/StockMarket/shen'})
+      this.$router.push({path:'/StockMarket/shen/shenselect'})
     },
     initEcharts() {
       const option = {
@@ -213,17 +232,17 @@ export default{
         <el-col :span="18"> 
           <div>
             <el-table :data="tableData" style="width: 100%,height:800px">
-              <el-table-column prop="date" label="股票代码"  />
-              <el-table-column prop="name" label="公司名称" />
-              <el-table-column prop="address" label="日期" width="100" />
-              <el-table-column prop="huamount" label="成交数量" width="100" />
-              <el-table-column prop="husales" label="成交总额" width="100" />
-              <el-table-column prop="huprice" label="成交均价" width="100" />
-              <el-table-column prop="huopenprice" label="开盘价" width="100" />
-              <el-table-column prop="hucloseprice" label="收盘价" width="100" />
-              <el-table-column prop="huhighprice" label="最高价" width="100" />
-              <el-table-column prop="hulowprice" label="最低价" width="100" />
-              <el-table-column prop="huincrease" label="涨跌幅" width="100"/>
+              <el-table-column prop="hustockid" label="股票代码"  />
+              <el-table-column prop="hucompanyname" label="公司名称" />
+              <el-table-column prop="hudate" label="日期" width="110" />
+              <el-table-column prop="huamount" label="成交数量" width="110" sortable />
+              <el-table-column prop="husales" label="成交总额" width="110" sortable/>
+              <el-table-column prop="huprice" label="成交均价" width="110" sortable/>
+              <el-table-column prop="huopenprice" label="开盘价" width="110" />
+              <el-table-column prop="hucloseprice" label="收盘价" width="110" />
+              <el-table-column prop="huhighprice" label="最高价" width="110" />
+              <el-table-column prop="hulowprice" label="最低价" width="110" />
+              <el-table-column prop="huincrease" label="涨跌幅" width="110" sortable />
             </el-table>
           </div>
         </el-col>
@@ -239,7 +258,9 @@ export default{
       </el-row>
         <div class="echart" id="mychart" style="width:100%; height: 400px;"></div>
           
-    
+      
+
+
       <!-- 页脚 -->
       <el-footer>
         <el-row>

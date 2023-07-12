@@ -2,30 +2,21 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import login from '../views/users/login.vue'
 import register from '../views/users/register.vue'
-import hu from '../views/stockmarket/hu.vue'
-import shen from '../views/stockmarket/shen.vue'
 import changepassword from '../views/users/changepassword.vue'
 import news from '../views/hotspot/news.vue'
 import companyNotices from '../views/hotspot/companyNotices.vue'
 import mystock from '../views/mystock/mystock.vue'
+import msadvice from '../views/mystock/msadvice.vue'
+import shenanalysis from '../views/stockmarket/shen/shenanalysis.vue'
+import shenselect from '../views/stockmarket/shen/shenselect.vue'
+import huselect from '../views/stockmarket/hu/huselect.vue'
+import huanalysis from '../views/stockmarket/hu/huanalysis.vue'
 
-// import Request from '@/utils/request.js'
- 
-// //post请求
-// export const reqPostForm = (data) => http({url:'v1/PostForm',method:'post',data})
-// //get请求
-// export const reqGetFormList = (params) => Request({url:'/v1/GetFormList',method:'get',params})
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    // {
-    //   //这里需要将根目录默认为Home，方便实现用户在保持登录 状态下再次登录时直接跳转至主页面
-    //     path:"/",
-    //     redirect:{
-    //       name:"Home"
-    //     }
-    //   },
+    
     {
       path: '/',
       name: 'home',
@@ -41,16 +32,6 @@ const router = createRouter({
       name: 'register',
       component: register
       
-    },
-    {
-      path: '/StockMarket/hu',
-      name: 'hu',
-      component: hu
-    },
-    {
-      path: '/StockMarket/shen',
-      name: 'shen',
-      component: shen
     },
     {
       path: '/user/changepassword',
@@ -72,6 +53,32 @@ const router = createRouter({
       name: 'mystock',
       component: mystock
     },
+    {
+      path: '/mystock/msadvice',
+      name: 'msadvice',
+      component: msadvice
+    },
+    {
+      path: '/StockMarket/shen/shenanalysis',
+      name: 'shenanalysis',
+      component: shenanalysis
+    },
+    {
+      path: '/StockMarket/shen/shenselect',
+      name: 'shenselect',
+      component: shenselect
+    },
+    {
+      path: '/StockMarket/hu/huselect',
+      name: 'huselect',
+      component: huselect
+    },
+    {
+      path: '/StockMarket/hu/huanalysis',
+      name: 'huanalysis',
+      component: huanalysis
+    },
+   
 
   ],
 

@@ -35,11 +35,11 @@ export default{
     },
     gohu:function(){
       //跳转到沪市页面
-      this.$router.push({path:'/StockMarket/hu'})
+      this.$router.push({path:'/StockMarket/hu/huselect'})
     },
     goshen:function(){
       //跳转到深市页面
-      this.$router.push({path:'/StockMarket/shen'})
+      this.$router.push({path:'/StockMarket/shen/shenselect'})
     },
     gonews:function(){
       //跳转到新闻页面
@@ -64,8 +64,6 @@ const activeIndex = ref('1')
 
 
 </script>
-
-
 
 <template> 
   <div class="common-layout">
