@@ -65,6 +65,18 @@
       <el-menu-item index="2" style="width: 250px;" >系统参考建议</el-menu-item>
     </el-menu>
   
+    <el-tabs type="border-card" style="margin-top: 30px;">
+    <el-tab-pane label="您的投资倾向" >{{ myadvice }}</el-tab-pane>
+    <el-tab-pane label="系统推荐股票">
+      <el-table :data="tableData" border style="width: 100%,height:800px;margin-top:20px;" stripe>
+              <el-table-column prop="adstockid" label="股票代码" width="300" />
+              <el-table-column prop="adcompanyname" label="公司名称" width="300" />
+              <el-table-column prop="adprice" label="股票均价" width="300" />
+              <el-table-column prop="adincrease" label="涨跌幅" width="300" />
+            </el-table>
+
+    </el-tab-pane>
+  </el-tabs>
         
     
     </el-col>
@@ -78,7 +90,7 @@
   </template>
   
   <script >
- 
+ import mystock from '@/utils/mystock'
     export default {
        
       methods: {
@@ -131,16 +143,34 @@
       //跳转到沪市页面
       this.$router.push({path:'/StockMarket/hu/huselect'})
     },
-      
-      
+    getma: function () {
+      this.myadvice=this.$route.query.myadvice;
+      mystock.getAdvice({useraccount:this.account}).then(res=>{
+        this.myadvice=res.data;
+      }).catch(err=>{
+        console.log(err);
+      })
+    },  
+    getmas:function(){
+      this.table=this.$route.query.table;
+      mystock.getAddStock({useraccount:this.account}).then(res=>{
+        this.table=res.data;
+      }).catch(err=>{
+        console.log(err);
+      })
     },
+    },
+      
+    
       
       
       data() {
         return {
           img_url:'../../src/assets/logo.png',
-          
-          
+          account:this.$route.query.account,
+          myadvice:'',
+          table:[{}],
+
           
         }
       }

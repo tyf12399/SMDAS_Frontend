@@ -4,8 +4,9 @@ export default {
   data(){
     return{
       img_url:'../src/assets/logo.png',
-      username:'',//姓名，用v-model绑定监听，将输入的字符串赋值给name变量
+      account:'',//zhanghao
       password:'',//密码
+      username:'',//用户名
       iflogin:false,//判断是否登录zhuangtai
       ifsuclog:false,//判断是否登录成功
     };
@@ -14,9 +15,9 @@ export default {
     handlelogin:function()
     {
       
-      if(this.username=='')//名字为空
+      if(this.account=='')//名字为空
        {
-         alert('用户名不为空');
+         alert('账号不为空');
        }
       else if(this.password=='')//密码为空
        {
@@ -24,19 +25,22 @@ export default {
        }
       else {
         this.ifsuclog = this.$route.query.ifsuclog
-        user.login({username:this.username,password:this.password}).then(response => {
+        this.username = this.$route.query.username
+        user.login({useraccount:this.account,password:this.password}).then(response => {
       console.log(response.data)
-      this.ifsuclog=response.data
-      }) 
+      this.ifsuclog=response.data.ifsuclog
+      this.username=response.data.username
       
-      if(this.ifsuclog==false ){
-        alert("用户名或密码错误，请重试");
+      
+      if(this.ifsuclog ==false ){
+        alert("账号或密码错误，请重试");
       }
-      if(this.ifsuclog==true){
+      else if(this.ifsuclog == true){
+        this.iflogin=this.$route.query.iflogin
         this.iflogin=true;//登录成功
-        this.$router.push({path:'/',query:{iflogin:true,username:this.username}})//跳转到主页面
-        this.username='';
-      }
+        this.$router.push({path:'/',query:{iflogin:true,account:this.account,username:this.username}})//跳转到主页面
+        //this.username='';
+      }}) 
       }
     },
     handleregister:function()
@@ -79,7 +83,7 @@ export default {
         <div style="margin-left: 100px;">
           <el-space direction="vertical">
           <div class="form">
-            <label>用户名：</label><el-input  v-model.trim="username" class="reginput"  placeholder="请输入用户名"></el-input><br/>
+            <label>账号：</label><el-input  v-model.trim="account" class="reginput"  placeholder="请输入账号"></el-input><br/>
           </div>
           <div class="form">
             <label>密码：</label><el-input v-model.trim="password" class="reginput"  placeholder="请输入密码" ></el-input><br/>

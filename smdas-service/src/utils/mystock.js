@@ -10,9 +10,12 @@ const mystock = {
     delMyStock(data){
         return api.post('api/mystock/del_my_stock',data)
     },
-    getAdvice(){
-        return api.get('api/mystock/get_advice')
-    }    
+    getAdvice(data){
+        return api.post('api/mystock/get_advice',data)
+    },
+    getAddStock(data){
+        return api.post('api/mystock/get_ad_stock',data)
+    },      
 }
 
 export default mystock

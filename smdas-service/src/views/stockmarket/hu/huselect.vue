@@ -74,7 +74,7 @@
         <el-col :span="18"> 
           <el-button @click="gethustock" type="primary" round>查询沪市股票信息</el-button>
           <div>
-            <el-table :data="tableData" border style="width: 100%,height:800px;margin-top:20px;">
+            <el-table :data="tableData" border style="width: 100%,height:800px;margin-top:20px;" stripe>
               <el-table-column prop="hustockid" label="股票代码"  fixed="left" />
               <el-table-column prop="hucompanyname" label="公司名称" />
               <el-table-column prop="hudate" label="日期" width="110" />
@@ -108,8 +108,7 @@
   </template>
   
   <script >
-  import * as echarts from "echarts";
-  
+  import stockmarket from '@/utils/stockmarket'
   
   
     export default {
@@ -165,9 +164,13 @@
       this.$router.push({path:'/StockMarket/hu/huselect'})
     },
     gethustock:function(){
-      this.tableData=this.$route.query.tableData;
-
-      this.tableData=this.tableData1;
+       this.tableData=this.$route.query.tableData;
+      // stockmarket.gethuStocks().then(response => {
+      //   this.tableData=response.data;
+      // }).catch(error => {
+      //   console.log(error);
+      // })
+       this.tableData=this.tableData1;
     },
       
       
@@ -176,6 +179,7 @@
       
       data() {
         return {
+          
           img_url:'../../src/assets/logo.png',
           tableData1: [{
             hustockid: '2016-05-02',

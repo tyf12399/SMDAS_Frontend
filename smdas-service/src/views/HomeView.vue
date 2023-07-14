@@ -7,13 +7,51 @@ export default{
   data(){
     return{
       msg:'',
+      account:this.$route.query.account,
       img_url:'./src/assets/logo.png',
       username:this.$route.query.username,
       //新建一个变量iflogin会随着传的值变化
       iflogin:this.$route.query.iflogin,
+      mainstock:[{}],
+      maintableData:[{
+          stockid:'000001',
+          stockname:'平安银行',
+          stockprice:'6.1',
+          stockincrease:0.1,
+        },
+        {
+          stockid:'000002',
+          stockname:'万科A',
+          stockprice:'6.1',
+          stockincrease:0.1,
+        },
+        {
+          stockid:'000003',
+          stockname:'PT金田A',
+          stockprice:'6.1',
+          stockincrease:0.1,
+
+        },
+      ],
+      newslist:[{
+        newsid:'1',
+        mainnews:'中国平安：前三季度净利润达到1499.49亿元，同比增长7.8%',  
+        },
+        {
+        newsid:'2',
+        mainnews:'中国平安：前三季度净利润达到1499.49亿元，同比增长6666',  
+        },
+        {
+        }
+      ],
+      
+
       }
     
   },
+  created() {
+this.getTOP10()
+},
  
   methods:{
     search:function(){
@@ -50,12 +88,21 @@ export default{
       this.$router.push({path:'/hotspot/companyNotices'})
     },
     gomystock:function(){
-      //跳转到zixun页面
-      this.$router.push({path:'/mystock'})
+      //跳转到自选股页面
+      this.$router.push({path:'/mystock',query:{account:this.account}})
     },
     
-  }
+    
+ 
+  getTOP10:function(){
+ this.mainstock = this.$route.query.mainstock;
+// stockmarket.getTopStocks().then(response => {
+//   this.mainstock=response.data;
 
+// })
+  this.mainstock=this.maintableData;
+},
+ },
 
 }
 import { ref } from 'vue'
@@ -151,11 +198,19 @@ const activeIndex = ref('1')
               <template #header>
                 <div class="card-header">
                   <span>热点速览</span>
-                  <el-button @click="gonews" style="color: #409EFF;" text>更多</el-button> 
+                  <el-button @click="gonews" style="color: #409EFF;" text>更多详情</el-button> 
                 </div>
                 <el-divider style="border-color: #F56C6C;border-width: 5px;"  />
               </template>
-              <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
+              <el-table
+              :data="newslist"
+              style="width: 100%"
+              height="500"
+              stripe
+            >
+              <el-table-column prop="newsid"  width="100" />
+              <el-table-column prop="mainnews"  width="600" />
+            </el-table>
             </el-card>
           </div>
         </div>
@@ -163,15 +218,17 @@ const activeIndex = ref('1')
      <el-col :span="1"> </el-col>
           <el-col :span="6">
             <el-table
-              :data="tableData"
+              :data="mainstock"
               style="width: 100%"
               height="500"
+              border
+              stripe
               :row-class-name="tableRowClassName"
             >
-              <el-table-column prop="huid" label="股票代码" width="80" />
-              <el-table-column prop="huname" label="股票名称" width="80" />
-              <el-table-column prop="hudate" label="日期" width="60" />
-              <el-table-column prop="huincrease" label="涨跌幅" width="70"  />
+            <el-table-column prop="stockid" label="股票代码" width="100" />
+              <el-table-column prop="stockname" label="名称" width="100" />
+              <el-table-column prop="stockprice" label="均价" width="100" />
+              <el-table-column prop="stockincrease" label="涨跌幅" width="100" />
             </el-table>
           </el-col>
           <el-col :span="3"> </el-col>

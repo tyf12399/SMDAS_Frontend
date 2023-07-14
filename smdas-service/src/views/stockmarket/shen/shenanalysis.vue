@@ -67,15 +67,32 @@
     </el-menu>
     <div style="margin-left: 33%;">
     <el-input placeholder="请输入股票代码"
-    v-model="huinputid" style="height:30px;width: 300px;margin-top: 20px;"/> 
+    v-model="inputid" style="height:30px;width: 300px;margin-top: 20px;"/> 
 
-     <el-button @click="shenanaly" type="primary" class="huana" round>分析</el-button>
+     <el-button @click="shenanaly" type="primary" class="huana" round style="margin-top: 20px;margin-left: 10px;">分析</el-button>
+     <el-button @click="shenhis" type="primary" class="huana" round style="margin-top: 20px;">历史记录</el-button>
+     <el-popconfirm
+    width="220"
+    confirm-button-text="OK"
+    cancel-button-text=" "
+    icon-color="#626AEF"
+    title="预测结果仅做参考，请谨慎投资"
+  >
+    <template #reference>
+   <el-button @click="shenpred" type="primary" class="huana" round style="margin-top: 20px;">预测</el-button>
+    </template>
+  </el-popconfirm>
+     
     </div><br>
      <!-- K线图 -->
      <div>
          <el-text type="primary" size="large" >K线图分析:</el-text>
         <div class="echart" id="mychart" style="width:100%; height: 400px;"></div>
     </div>
+    <div id="app">
+    <el-text type="primary" size="large" >系统预测:</el-text>
+    <div id="main" style="width: 100%; height: 400px"></div>
+  </div>
     </el-col>
       <el-col :span="3"></el-col>
     </el-row>
@@ -87,18 +104,18 @@
         <el-col :span="18"> 
             <el-text type="primary" size="large" >历史交易记录:</el-text>
           <div>
-            <el-table :data="tableData" border style="width: 100%,height:800px;margin-top:20px;">
-              <el-table-column prop="hustockid" label="股票代码"  fixed="left" />
-              <el-table-column prop="hucompanyname" label="公司名称" />
-              <el-table-column prop="hudate" label="日期" width="110" />
-              <el-table-column prop="huamount" label="成交数量" width="110" sortable />
-              <el-table-column prop="husales" label="成交总额" width="110" sortable/>
-              <el-table-column prop="huprice" label="成交均价" width="110" sortable/>
-              <el-table-column prop="huopenprice" label="开盘价" width="110" />
-              <el-table-column prop="hucloseprice" label="收盘价" width="110" />
-              <el-table-column prop="huhighprice" label="最高价" width="110" />
-              <el-table-column prop="hulowprice" label="最低价" width="110" />
-              <el-table-column prop="huincrease" label="涨跌幅" width="110" sortable />
+            <el-table :data="tableData" border style="width: 100%,height:800px;margin-top:20px;" stripe>
+              <el-table-column prop="hisstockid" label="股票代码"  fixed="left" />
+              <el-table-column prop="hiscompanyname" label="公司名称" />
+              <el-table-column prop="hisdate" label="日期" width="110" />
+              <el-table-column prop="hisamount" label="成交数量" width="110" sortable />
+              <el-table-column prop="hissales" label="成交总额" width="110" sortable/>
+              <el-table-column prop="hisprice" label="成交均价" width="110" sortable/>
+              <el-table-column prop="hisopenprice" label="开盘价" width="110" />
+              <el-table-column prop="hiscloseprice" label="收盘价" width="110" />
+              <el-table-column prop="hishighprice" label="最高价" width="110" />
+              <el-table-column prop="hislowprice" label="最低价" width="110" />
+              <el-table-column prop="hisincrease" label="涨跌幅" width="110" sortable />
             </el-table>
           </div>
         </el-col>
@@ -122,7 +139,7 @@
   
   <script >
   import * as echarts from "echarts";
-  
+  import stockmarket from '@/utils/stockmarket'
   
   
     export default {
@@ -130,17 +147,47 @@
     this.initEcharts();
   },
       methods: {
-        deleteRow(index, rows) {
-          rows.splice(index, 1);
+        drawLine(id) {
+      this.charts = echarts.init(document.getElementById(id));
+      this.charts.setOption({
+        tooltip: {
+          trigger: "axis",
         },
-        filterHandler(value, row, column) {
-          const property = column['property'];
-          return row[property] == value;
+        legend: {
+          data: ["近五日收盘价"],
         },
-        filterTag(value, row, column) {
-        const property = column["property"];
-        return row[property] === value;
-      },
+        grid: {
+          left: "3%",
+          right: "4%",
+          bottom: "3%",
+          containLabel: true,
+        },
+ 
+        toolbox: {
+          feature: {
+            saveAsImage: {},
+          },
+        },
+        xAxis: {
+          type: "category",
+          boundaryGap: false,
+          data: ["1", "2", "3", "4", "5"],
+        },
+        yAxis: {
+          type: "value",
+        },
+ 
+        series: [
+          {
+            name: "近五日收盘价",
+            type: "line",
+            stack: "总额",
+            data: this.shenpredata,
+          },
+        ],
+      });
+    },
+    
       changePage1: function () {
         this.$router.push({ path: "/stockmarket/shen/shenanalysis" });
       },
@@ -209,15 +256,44 @@
       this.$router.push({path:'/StockMarket/hu/huselect'})
     },
     shenanaly:function(){
-        this.tableData=this.$route.query.tableData;
-        this.datatest=this.$route.query.datatest;
-        // api
-        this.datatest=this.datatest1;
-        this.initEcharts();
-        this.tableData=this.tableData1;
-        
+      this.datatest=this.$route.query.datatest;
+      // stockmarket.getKData({stockid:this.inputid})
+      // .then(res => {
+      //   this.datatest = res.data;
+      //   this.initEcharts();
+      // })
+      
 
-    },
+      this.datatest=this.datatest1;
+      this.initEcharts();
+
+  },
+  shenpred:function(){
+      
+    this.hupredata=this.$route.query.hupredata;
+      // stockmarket.getPrediction({stockid:this.huinputid})
+      // .then(res => {
+      //   this.hupredata = res.data;
+      //   this.$nextTick(function () {
+       //     this.drawLine("main");
+       //       });
+      // })
+      this.shenpredata=this.opinionData;
+      this.$nextTick(function () {
+           this.drawLine("main");
+             });
+     
+
+  },
+  shenhis:function(){
+    this.tableData=this.$route.query.tableData;
+    // stockmarket.getHisRecord({stockid:this.inputid})
+      // .then(res => {
+      //   this.tableData = res.data;
+      // })
+    this.tableData=this.tableData1;
+  },
+    
       
       
     },
@@ -226,7 +302,22 @@
       data() {
         return {
           img_url:'../../src/assets/logo.png',
-          stockid: "",
+          inputid: "",
+          datapred:[{
+            date: "2016-05-02",
+            openprice: 100,
+            closeprice: 80,
+            highprice: 120,
+            lowprice: 80,
+          },
+          {
+            date: "2016-05-03",
+            openprice: 80,
+            closeprice: 70,
+            highprice: 90,
+            lowprice: 70,
+          },
+        ],
           datatest1:[
           {
             date: "2016-05-02",
@@ -266,38 +357,40 @@
         }
           ],
           tableData1: [{
-            hustockid: '2016-05-02',
-            hucompanyname: '王小虎',
-            hudate: '上海市普陀区金沙江路 1518 弄',
-            huamount:20000,
-            husales: 200333,
-            huprice: 200333,
-            huopenprice: 200333,
-            hucloseprice: 200333,
-            huhighprice: 200333,
-            hulowprice: 200333,
-            huincrease: -1.0,
+            hisstockid: '2016-05-02',
+            hiscompanyname: '王小虎',
+            hisdate: '上海市普陀区金沙江路 1518 弄',
+            hisamount:20000,
+            hissales: 200333,
+            hisprice: 200333,
+            hisopenprice: 200333,
+            hiscloseprice: 200333,
+            hishighprice: 200333,
+            hislowprice: 200333,
+            hisincrease: -1.0,
 
           },
           {
-            hustockid: '2016-05-02',
-            hucompanyname: '王小虎',
-            hudate: '上海市普陀区金沙江路 1518 弄',
-            huamount:200000,
-            husales: 20,
-            huprice: 2003,
-            huopenprice: 2033,
-            hucloseprice: 2033,
-            huhighprice: 2333,
-            hulowprice: 2033,
-            huincrease: 0.2,
+            hisstockid: '2016-05-02',
+            hiscompanyname: '王小虎',
+            hisdate: '上海市普陀区金沙江路 1518 弄',
+            hisamount:200000,
+            hissales: 20,
+            hisprice: 2003,
+            hisopenprice: 2033,
+            hiscloseprice: 2033,
+            hishighprice: 2333,
+            hislowprice: 2033,
+            hisincrease: 0.2,
 
           },
           
           ],
           tableData: [{}],
           datatest: [{}],
-          
+          charts: "",
+        hupredata:[{}],
+        opinionData: ["66", "56", "46", "54", "63"],
         }
       }
     }

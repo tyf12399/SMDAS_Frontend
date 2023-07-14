@@ -131,18 +131,35 @@
 import * as echarts from "echarts";
 import axios from "axios";
 import { resolveTransitionHooks } from "vue";
-
+import mystock from "@/utils/mystock";
 
   export default {
      
     methods: {
       deleteRow(index, rows) {
-        rows.splice(index, 1);
+        this.ifdel=this.$route.query.ifdel;
+        // mystock.delMyStock({useraccount:this.account,mystockid:rows[index].tableData}).then(res=>{
+        //   this.ifdel=res.data;
+        //   if(this.ifdel==true){
+        //   alert("删除成功");
+        //   rows.splice(index, 1);}
+        // })
+        
+        alert("删除成功");
+          rows.splice(index, 1);
+        
       },
-      addmystock: function () {
-        // 用push方法向数组中添加数据
+      addmystock () {
+        //this.adddata=this.$route.query.adddata;
+        // mystock.addMyStock({useraccount:this.account,mystockid:this.inputid}).then(res=>{
+        //   this.adddata=res.data;
+        //   this.tableData.push(this.adddata);
+        //   alert("添加成功");
+        // })
         this.tableData.push(this.adddata);
-        alert("添加成功");
+          alert("添加成功");
+
+        
       },
       filterHandler(value, row, column) {
         const property = column['property'];
@@ -153,10 +170,10 @@ import { resolveTransitionHooks } from "vue";
       return row[property] === value;
     },
     changePage3: function () {
-        this.$router.push({ path: "/mystock/msadvice" });
+        this.$router.push({ path: "/mystock/msadvice" ,query:{account:this.account}});
       },
       changePage4: function () {
-        this.$router.push({ path: "/mystock" });
+        this.$router.push({ path: "/mystock",query:{account:this.account} });
       },
     gologin:function(){
     //跳转到login页面
@@ -192,10 +209,15 @@ import { resolveTransitionHooks } from "vue";
   },
   getmystock:function(){
     this.tableData=this.$route.query.tableData;
-
+    // mystock.getMyStock(this.account).then(response=>{
+    //   this.tableData=response.data;
+    // }).catch(error=>{
+    //   console.log(error);
+    // })  
 
     this.tableData=this.tableData1;
   },
+  
     
     
   },
@@ -203,8 +225,10 @@ import { resolveTransitionHooks } from "vue";
     
     data() {
       return {
+        account:this.$route.query.account,
         img_url:'../../src/assets/logo.png',
         inputid:'',
+        ifdel:false,
         adddata:{
             mystockid: '2016-05-06',
             mycompanyname: '王小6',

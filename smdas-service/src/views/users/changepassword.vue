@@ -4,7 +4,7 @@ export  default{
     data(){
         return{
             img_url:'../src/assets/logo.png',
-            username:'',
+            account:'',
             password1:'',
             password2:'',
             question:'',
@@ -18,12 +18,12 @@ export  default{
     },
     methods:{
         getQA:function(){
-            if(this.username=='')
+            if(this.account=='')
             {
-                alert("用户名不能为空");
+                alert("账号不能为空");
             }
             else{
-                user.getQ({username:this.username}).then(response => {
+                user.getSecurityQuestion({useraccount:this.account}).then(response => {
                 console.log(response.data)
                 this.question=this.response.data
                 
@@ -32,17 +32,18 @@ export  default{
         
     },
         checkanswer:function(){
-            user.getA({useranswer:this.useranswer}).then(response => {
+            this.ifsucQA=this.$route.query.ifsucQA
+            user.checkAnswer({useraccount:this.account,useranswer:this.useranswer}).then(response => {
                     console.log(response.data)
                     this.ifsucQA=this.response.data
-            }) 
+            
                 if(this.ifsucQA==true){
                     alert("密保答案正确，请修改密码")
                 }
                 else{
                     alert("密保答案错误，请重试")
                 }
-             
+             }) 
         },
         changepass:function(){
             if(this.password1=='')
@@ -55,24 +56,25 @@ export  default{
             }
             else{
             if(this.password1==this.password2){
-                user.changePass({username:this.username,newpassword:this.password1}).then(response => {
-                    console.log(response.data)
-                    
-                    this.ifsucchange=this.response.data
-                }) 
+                this.ifsucchange=this.$route.query.ifsucchange
+                user.changePass({useraccount:this.account,newpassword:this.password1}).then(response => {
+                    console.log(response.data)   
+                this.ifsucchange=this.response.data
+             
                 if(this.ifsucchange==true){
                     alert("密码修改成功")
                     this.$router.push({path:'/user/login'})
                 }
                 else{
                     alert("密码修改失败，请重试")
-                }
+                } })
             }
             else{
                 alert("两次输入的密码不一致，请重试")
             }
+
         }
-        }
+        } 
 
 
     }
@@ -98,21 +100,21 @@ export  default{
         <div style="margin-left: 100px;">
           <el-space direction="vertical">
           <div class="form">
-            <label>用户名：</label><el-input  v-model.trim="username" class="reginput" placeholder="请输入用户名"></el-input><br/>
+            <label>账号：</label><el-input  v-model.trim="account" class="reginput" placeholder="请输入账号"></el-input><br/>
           </div>
           <el-button @click.prevent="getQA" type="success" style="margin-left: 20%;">获取密保问题</el-button>
           <div class="form" style="margin-right: 200px;">
             <label >密保问题：</label><label >{{ this.question }}</label><br/>
           </div>
           <div class="form">
-            <label>密保答案：</label><el-input  v-model.trim="question" class="reginput"  placeholder="请输入密保问题"></el-input><br/>
+            <label>密保答案：</label><el-input  v-model.trim="answer" class="reginput"  placeholder="请输入密保答案"></el-input><br/>
           </div>
           <el-button @click.prevent="checkanswer" type="success" style="margin-left: 20%;">提交</el-button>
           <div class="form" >
-            <label >新密码：</label><el-input v-model.trim="answer" class="reginput"  placeholder="请输入新密码"></el-input><br/>
+            <label >新密码：</label><el-input v-model.trim="password1" class="reginput"  placeholder="请输入新密码"></el-input><br/>
           </div>
           <div class="form" >
-            <label >再次输入密码：</label><el-input v-model.trim="answer" class="reginput"  placeholder="请再次输入"></el-input><br/>
+            <label >再次输入密码：</label><el-input v-model.trim="password2" class="reginput"  placeholder="请再次输入"></el-input><br/>
           </div>
           <el-button @click.prevent="changepass" type="success" style="margin-left: 20%;">确认修改</el-button>
          </el-space>

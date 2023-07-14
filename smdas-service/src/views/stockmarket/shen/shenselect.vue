@@ -75,7 +75,7 @@
         <el-col :span="18"> 
           <el-button @click="getshenstock" type="primary" round>查询深市股票信息</el-button>
           <div>
-            <el-table :data="tableData" border style="width: 100%,height:800px;margin-top:20px;">
+            <el-table :data="tableData" border style="width: 100%,height:800px;margin-top:20px;" stripe>
               <el-table-column prop="shenstockid" label="股票代码"  fixed="left" />
               <el-table-column prop="shencompanyname" label="公司名称" />
               <el-table-column prop="shendate" label="日期" width="110" />
@@ -110,7 +110,7 @@
   
   <script >
   import * as echarts from "echarts";
-  
+  import stockmarket from '@/utils/stockmarket'
   
   
     export default {
@@ -167,8 +167,12 @@
     },
     getshenstock:function(){
       this.tableData=this.$route.query.tableData;
-
-      this.tableData=this.tableData1;
+      // stockmarket.getshenStocks().then(response => {
+      //   this.tableData=response.data;
+      // }).catch(error => {
+      //   console.log(error);
+      // })
+       this.tableData=this.tableData1;
     },
       
       
@@ -178,6 +182,7 @@
       data() {
         return {
           img_url:'../../src/assets/logo.png',
+          account:this.$route.query.account,
           tableData1: [{
             shenstockid: '2016-05-02',
             shencompanyname: '王小虎',
