@@ -2,7 +2,7 @@
   <el-row>
     <el-col :span="24">
   <el-menu
-    default-active=2-2
+    default-active=2-1
     mode="horizontal"
     background-color="#545c64"
     text-color="#fff"
@@ -33,7 +33,7 @@
           <el-col :span="12"> 
             <div>
               <img class="img_logo" v-bind:src="img_url" style="vertical-align:middle" alt="">
-              <text class="title" >自选股 | 公司公告</text>
+              <text class="title" >公司公告</text>
             </div>
           </el-col>
           <!-- 搜索框及按钮 -->
@@ -65,7 +65,25 @@
     <el-menu-item index="2" style="width: 250px;" @click="gocpNotice">公司公告</el-menu-item>
   </el-menu>
 
- 
+  <el-table :data="newsdata" border style="width: 100%,weight:400px;margin-top:20px;" stripe>
+              <el-table-column prop="newsname" label="新闻标题" />
+              <el-table-column label="网址跳转" >
+                <template #default="scope">
+                <el-button
+                  link
+                  type="primary"
+                  size="small"
+                  @click="See(scope.row.newsurl)"
+
+                >
+                  点击跳转
+                </el-button>
+              </template>
+                </el-table-column>
+              
+            </el-table>
+
+  
       
   
   </el-col>
@@ -79,9 +97,13 @@
 </template>
 
 <script >
+
+import hotspot from '@/utils/hotspot'
 import mystock from '@/utils/mystock'
   export default {
-     
+    created(){
+      this.getNewsData()
+    }, 
     methods: {
    
     gologin:function(){
@@ -117,6 +139,17 @@ import mystock from '@/utils/mystock'
     this.$router.push({path:'/StockMarket/hu/huselect'})
   
   },
+  See(e){
+    window.location.href=e
+  },
+  getNewsData(){
+    this.newsdata=this.$route.query.newsdata;
+    // hotspot.getNews().then(res=>{
+    //   this.newsData = res.data
+    //   console.log(res.data)
+    // })
+    this.newsdata=this.tabledata
+  },
   },
     
   
@@ -125,7 +158,53 @@ import mystock from '@/utils/mystock'
     data() {
       return {
         img_url:'../../src/assets/logo.png',
-        
+        newsdata:[],
+        tabledata:[{
+          newsname: '网宿科技',
+          newsurl: ' http://emweb.securities.eastmoney.com/PC_HSF10/ShareholderResearch/Index?type=web&code=SZ300017#',
+        },
+        {
+          newsname: '北陆药业',
+          newsurl: ' http://emweb.securities.eastmoney.com/PC_HSF10/ShareholderResearch/Index?type=web&code=SZ300016#',
+        },
+        {
+          newsname: '爱尔眼科',
+          newsurl: ' http://emweb.securities.eastmoney.com/PC_HSF10/ShareholderResearch/Index?type=web&code=SZ300015#',
+        },
+        {
+          newsname: '中原股份',
+          newsurl: ' http://emweb.securities.eastmoney.com/PC_HSF10/ShareholderResearch/Index?type=web&code=SZ300018#',
+        },
+        {
+          newsname: '硅宝科技',
+          newsurl: ' http://emweb.securities.eastmoney.com/PC_HSF10/ShareholderResearch/Index?type=web&code=SZ300019#',
+        },
+        {
+          newsname: '银江技术',
+          newsurl: ' http://emweb.securities.eastmoney.com/PC_HSF10/ShareholderResearch/Index?type=web&code=SZ300020#',
+        },
+        {
+          newsname: '大禹节水',
+          newsurl: ' http://emweb.securities.eastmoney.com/PC_HSF10/ShareholderResearch/Index?type=web&code=SZ300021#',
+        },
+        {
+          newsname: '鼎汉技术',
+          newsurl: ' http://emweb.securities.eastmoney.com/PC_HSF10/ShareholderResearch/Index?type=web&code=SZ300011#',
+        },
+        {
+          newsname: '华测检测',
+          newsurl: ' http://emweb.securities.eastmoney.com/PC_HSF10/ShareholderResearch/Index?type=web&code=SZ300012#',
+        },
+        {
+          newsname: '新宁物流',
+          newsurl: ' http://emweb.securities.eastmoney.com/PC_HSF10/ShareholderResearch/Index?type=web&code=SZ300013#',
+        },
+        {
+          newsname: '*ST豆神',
+          newsurl: ' http://emweb.securities.eastmoney.com/PC_HSF10/ShareholderResearch/Index?type=web&code=SZ300010#',
+        },
+
+      ],
 
         
       }

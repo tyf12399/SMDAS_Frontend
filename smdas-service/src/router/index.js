@@ -6,7 +6,6 @@ import changepassword from '../views/users/changepassword.vue'
 import news from '../views/hotspot/news.vue'
 import companyNotices from '../views/hotspot/companyNotices.vue'
 import mystock from '../views/mystock/mystock.vue'
-import msadvice from '../views/mystock/msadvice.vue'
 import shenanalysis from '../views/stockmarket/shen/shenanalysis.vue'
 import shenselect from '../views/stockmarket/shen/shenselect.vue'
 import huselect from '../views/stockmarket/hu/huselect.vue'
@@ -53,11 +52,7 @@ const router = createRouter({
       name: 'mystock',
       component: mystock
     },
-    {
-      path: '/mystock/msadvice',
-      name: 'msadvice',
-      component: msadvice
-    },
+   
     {
       path: '/StockMarket/shen/shenanalysis',
       name: 'shenanalysis',

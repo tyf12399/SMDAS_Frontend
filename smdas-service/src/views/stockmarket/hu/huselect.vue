@@ -74,9 +74,8 @@
         <el-col :span="18"> 
           <el-button @click="gethustock" type="primary" round>查询沪市股票信息</el-button>
           <div>
-            <el-table :data="tableData" border style="width: 100%,height:800px;margin-top:20px;" stripe>
-              <el-table-column prop="hustockid" label="股票代码"  fixed="left" />
-              <el-table-column prop="hucompanyname" label="公司名称" />
+            <el-table :data="tableData" border style="width: 100%,weight:800px;margin-top:20px;" stripe>
+              <el-table-column prop="hustock" label="股票代码"  fixed="left" />
               <el-table-column prop="hudate" label="日期" width="110" />
               <el-table-column prop="huamount" label="成交数量" width="110" sortable />
               <el-table-column prop="husales" label="成交总额" width="110" sortable/>
@@ -165,12 +164,12 @@
     },
     gethustock:function(){
        this.tableData=this.$route.query.tableData;
-      // stockmarket.gethuStocks().then(response => {
-      //   this.tableData=response.data;
-      // }).catch(error => {
-      //   console.log(error);
-      // })
-       this.tableData=this.tableData1;
+       stockmarket.gethuStocks().then(response => {
+        console.log(response);
+         this.tableData=response.data;
+         console.log(this.tableData);
+       })
+       //this.tableData=this.tableData1;
     },
       
       
@@ -198,7 +197,7 @@
           {
             hustockid: '2016-05-02',
             hucompanyname: '王小虎',
-            hudate: '上海市普陀区金沙江路 1518 弄',
+            hudate: '2023-7-3',
             huamount:200000,
             husales: 20,
             huprice: 2003,
@@ -213,6 +212,7 @@
           ],
           tableData:[{}],
           
+
           
         }
       }

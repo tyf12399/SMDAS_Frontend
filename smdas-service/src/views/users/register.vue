@@ -57,22 +57,20 @@ export default {
             this.account = response.data.account;
             console.log(this.ifreg);
             console.log(this.ifqa);
-
-            if (this.ifreg === false) {
-              alert("用户已注册或用户名、密码有问题，请重试");
-            } else if (this.ifqa === false) {
-              alert("密保问题或问题答案有问题，请重试");
-            } else if (this.ifreg === true) {
-              alert("注册成功,您的账号为：",this.account);
-              // 完成注册后跳转至登录页面
-              this.$router.replace('/user/login');
-            }
-          })
-          .catch(error => {
-            console.error(error);
-            alert("注册失败，请稍后重试");
-          });
-      }
+            console.log(this.account);
+              
+       if (this.ifreg == false) {
+         alert("用户已注册或用户名、密码有问题，请重试");
+       } else if (this.ifqa == false) {
+         alert("密保问题或问题答案有问题，请重试");
+       } else if (this.ifreg == true && this.ifqa == true) {
+         alert(this.account);
+         alert("以上为你的账号，注册成功");
+         // 完成注册后跳转至登录页面
+         this.$router.replace('/user/login');
+       }})
+        }  
+      
     },
    
   },
@@ -104,7 +102,8 @@ export default {
             <label>用户名：</label><el-input  v-model.trim="nickname" class="reginput" placeholder="请输入用户名"></el-input><br/>
           </div>
           <div class="form">
-            <label>密码：</label><el-input v-model.trim="password" class="reginput"  placeholder="请输入密码"></el-input><br/>
+            <label>密码：</label><el-input v-model.trim="password" class="reginput" 
+				:show-password="false" placeholder="请输入密码"></el-input><br/>
           </div>
           <div class="form">
             <label>密保问题：</label><el-input  v-model.trim="question" class="reginput"  placeholder="请输入密保问题"></el-input><br/>

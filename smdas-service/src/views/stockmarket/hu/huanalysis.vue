@@ -107,7 +107,6 @@
         <div>
           <el-table :data="tableData" border style="width: 100%,height:800px;margin-top:20px;" stripe>
             <el-table-column prop="hisstockid" label="股票代码"  fixed="left" />
-            <el-table-column prop="hiscompanyname" label="公司名称" />
             <el-table-column prop="hisdate" label="日期" width="110" />
             <el-table-column prop="hisamount" label="成交数量" width="110" sortable />
             <el-table-column prop="hissales" label="成交总额" width="110" sortable/>
@@ -273,40 +272,35 @@ import stockmarket from '@/utils/stockmarket'
   },
   huanaly:function(){
       this.datatest=this.$route.query.datatest;
-      // stockmarket.getKData({stockid:this.inputid})
-      // .then(res => {
-      //   this.datatest = res.data;
-      //   this.initEcharts();
-      // })
+       stockmarket.getKData({stockid:this.inputid})
+       .then(res => {
+         this.datatest = res.data;
+         this.initEcharts();
+       })
      
-      this.datatest=this.datatest1;
-      this.initEcharts();
-
+     
   },
   hupred:function(){
       
       this.hupredata=this.$route.query.hupredata;
-      // stockmarket.getPrediction({stockid:this.inputid})
-      // .then(res => {
-      //   this.hupredata = res.data;
-      //   this.$nextTick(function () {
-       //     this.drawLine("main");
-       //       });
-      // })
-      this.hupredata=this.opinionData;
-      this.$nextTick(function () {
-           this.drawLine("main");
-             });
+       stockmarket.getPrediction({stockid:this.inputid})
+       .then(res => {
+        console.log(res.data);
+         this.hupredata = res.data;
+        this.$nextTick(function () {
+            this.drawLine("main");
+              });
+       })
+     
      
 
   },
   huhis:function(){
     this.tableData=this.$route.query.tableData;
-    // stockmarket.getHisRecord({stockid:this.inputid})
-      // .then(res => {
-      //   this.tableData = res.data;
-      // })
-    this.tableData=this.tableData1;
+     stockmarket.getHisRecord({stockid:this.inputid})
+       .then(res => {
+         this.tableData = res.data;
+       })
   },
     
     

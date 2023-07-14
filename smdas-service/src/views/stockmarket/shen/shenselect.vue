@@ -75,9 +75,8 @@
         <el-col :span="18"> 
           <el-button @click="getshenstock" type="primary" round>查询深市股票信息</el-button>
           <div>
-            <el-table :data="tableData" border style="width: 100%,height:800px;margin-top:20px;" stripe>
-              <el-table-column prop="shenstockid" label="股票代码"  fixed="left" />
-              <el-table-column prop="shencompanyname" label="公司名称" />
+            <el-table :data="tableData" border style="width: 100%,weight:800px;margin-top:20px;" stripe>
+              <el-table-column prop="shenstock" label="股票代码"  fixed="left" />
               <el-table-column prop="shendate" label="日期" width="110" />
               <el-table-column prop="shenamount" label="成交数量" width="110" sortable />
               <el-table-column prop="shensales" label="成交总额" width="110" sortable/>
@@ -167,12 +166,12 @@
     },
     getshenstock:function(){
       this.tableData=this.$route.query.tableData;
-      // stockmarket.getshenStocks().then(response => {
-      //   this.tableData=response.data;
-      // }).catch(error => {
-      //   console.log(error);
-      // })
-       this.tableData=this.tableData1;
+       stockmarket.getshenStocks().then(response => {
+        console.log(response);
+        this.tableData=response.data;
+        console.log(this.tableData);
+       })
+      
     },
       
       

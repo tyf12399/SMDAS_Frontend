@@ -33,7 +33,7 @@
           <el-col :span="12"> 
             <div>
               <img class="img_logo" v-bind:src="img_url" style="vertical-align:middle" alt="">
-              <text class="title" >自选股 | 财经新闻</text>
+              <text class="title" >财经新闻</text>
             </div>
           </el-col>
           <!-- 搜索框及按钮 -->
@@ -65,49 +65,24 @@
     <el-menu-item index="2" style="width: 250px;" @click="gocpNotice">公司公告</el-menu-item>
   </el-menu>
 
-  <el-table
-    :data="tableData"
-    style="width: 100%">
-    <el-table-column type="expand">
-      <template slot-scope="props">
-        <el-form label-position="left" inline class="demo-table-expand">
-          <el-form-item label="商品名称">
-            <span>{{ props.row.name }}</span>
-          </el-form-item>
-          <el-form-item label="所属店铺">
-            <span>{{ props.row.shop }}</span>
-          </el-form-item>
-          <el-form-item label="商品 ID">
-            <span>{{ props.row.id }}</span>
-          </el-form-item>
-          <el-form-item label="店铺 ID">
-            <span>{{ props.row.shopId }}</span>
-          </el-form-item>
-          <el-form-item label="商品分类">
-            <span>{{ props.row.category }}</span>
-          </el-form-item>
-          <el-form-item label="店铺地址">
-            <span>{{ props.row.address }}</span>
-          </el-form-item>
-          <el-form-item label="商品描述">
-            <span>{{ props.row.desc }}</span>
-          </el-form-item>
-        </el-form>
-      </template>
-    </el-table-column>
-    <el-table-column
-      label="商品 ID"
-      prop="id">
-    </el-table-column>
-    <el-table-column
-      label="商品名称"
-      prop="name">
-    </el-table-column>
-    <el-table-column
-      label="描述"
-      prop="desc">
-    </el-table-column>
-  </el-table>
+  <el-table :data="newsdata" border style="width: 100%,weight:500px;margin-top:20px;" stripe>
+              <el-table-column prop="newsdate" label="日期" width="120px" sortable />
+              <el-table-column prop="newsname" label="新闻标题" />
+              <el-table-column label="网址跳转" >
+                <template #default="scope">
+                <el-button
+                  link
+                  type="primary"
+                  size="small"
+                  @click="See(scope.row.newsurl)"
+
+                >
+                  点击跳转
+                </el-button>
+              </template>
+                </el-table-column>
+              
+            </el-table>
 
   
       
@@ -123,9 +98,13 @@
 </template>
 
 <script >
+
+import hotspot from '@/utils/hotspot'
 import mystock from '@/utils/mystock'
   export default {
-     
+    created(){
+      this.getNewsData()
+    }, 
     methods: {
    
     gologin:function(){
@@ -161,6 +140,17 @@ import mystock from '@/utils/mystock'
     this.$router.push({path:'/StockMarket/hu/huselect'})
   
   },
+  See(e){
+    window.location.href=e
+  },
+  getNewsData(){
+    this.newsdata=this.$route.query.newsdata;
+    // hotspot.getNews().then(res=>{
+    //   this.newsData = res.data
+    //   console.log(res.data)
+    // })
+    this.newsdata=this.tabledata
+  },
   },
     
   
@@ -169,7 +159,68 @@ import mystock from '@/utils/mystock'
     data() {
       return {
         img_url:'../../src/assets/logo.png',
-        
+        newsdata:[],
+        tabledata:[{
+          newsdate: '2023-07-16',
+          newsname: '风口！这些板块成为避风港？',
+          newsurl: 'https://finance.eastmoney.com/a/202307122778432876.html',
+        },
+        {
+          newsdate: '2023-07-14',
+          newsname: '8700亿美元！欧佩克2022年石油收入创近8年新高',
+          newsurl: 'https://finance.eastmoney.com/a/202307122777248766.html',
+        },
+        {
+          newsdate: '2023-07-14',
+          newsname: '虚构的预付款项后续会如何处置？',
+          newsurl: 'https://finance.eastmoney.com/a/202307112776660744.html',
+        },{
+          newsdate: '2023-07-14',
+          newsname: '李强主持召开平台企业座谈会',
+          newsurl: 'https://finance.eastmoney.com/a/202307122778548966.html',
+        },
+        {
+          newsdate: '2023-07-14',
+          newsname: '主力复盘：15亿抢筹光伏 超6亿资金拉升隆基绿能',
+          newsurl: 'https://finance.eastmoney.com/a/202307122778386992.html',
+        },
+        {
+          newsdate: '2023-07-14',
+          newsname: '华泰证券:汽车行业景气走出低点 二季度进上行期',
+          newsurl: 'https://finance.eastmoney.com/a/202307122777551155.html',
+        },
+        {
+        newsdate: '2023-07-13',
+          newsname: 'A股港股爆发了！原因找到了！',
+          newsurl: 'https://finance.eastmoney.com/a/202307132779614610.html',
+        },
+        {
+          newsdate: '2023-07-13',
+          newsname: '英伟达入场 AI为药物研发插上翅膀 CRO又行了？',
+          newsurl: 'https://finance.eastmoney.com/a/202307132779634667.html',
+        },
+        {
+          newsdate: '2023-07-13',
+          newsname: '虚构的预付款项后续会如何处置？',
+          newsurl: 'https://finance.eastmoney.com/a/202307112776660744.html',
+        },
+        {
+          newsdate: '2023-07-15',
+          newsname: '“大学生就活该1小时16元给你打扫卫生” 兼职学生吐槽优衣库规矩多、薪资低',
+          newsurl: 'https://finance.eastmoney.com/a/202307132779889784.html',
+        },
+        {
+          newsdate: '2023-07-12',
+          newsname: '主力复盘：23亿资金狂买半导体 3亿砸盘拓维信息',
+          newsurl: 'https://finance.eastmoney.com/a/202307132779870082.html',
+        },
+        {
+          newsdate: '2023-07-14',
+          newsname: '华泰证券：火电行情正当时 不必过于担忧降电价',
+          newsurl: 'https://finance.eastmoney.com/a/202307132778917080.html',
+        },
+
+      ],
 
         
       }

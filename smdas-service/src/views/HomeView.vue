@@ -14,35 +14,106 @@ export default{
       iflogin:this.$route.query.iflogin,
       mainstock:[{}],
       maintableData:[{
-          stockid:'000001',
-          stockname:'平安银行',
-          stockprice:'6.1',
-          stockincrease:0.1,
+          stockid:'001287',
+          stockprice:'38.06',
+          stockincrease:224.19,
         },
         {
-          stockid:'000002',
-          stockname:'万科A',
-          stockprice:'6.1',
-          stockincrease:0.1,
+          stockid:'688361',
+          stockprice:'68.35',
+          stockincrease:189.62,
         },
         {
-          stockid:'000003',
-          stockname:'PT金田A',
-          stockprice:'6.1',
-          stockincrease:0.1,
+          stockid:'001328',
+          stockprice:'56.04',
+          stockincrease:179.08,
 
         },
+        {
+          stockid:'688502',
+          stockprice:'191.3',
+          stockincrease:177.17,
+
+        },
+        {
+          stockid:'688435',
+          stockprice:'107',
+          stockincrease:176.77,
+
+        },
+        {
+          stockid:'688515',
+          stockprice:'232.48',
+          stockincrease:152.7,
+
+        },
+        {
+          stockid:'688629',
+          stockprice:'23.11',
+          stockincrease:149.57,
+
+        },
+        {
+          stockid:'688343',
+          stockprice:'104.11',
+          stockincrease:137.04,
+
+        },
+        {
+          stockid:'301358',
+          stockprice:'53.2',
+          stockincrease:127.64,
+
+        },
+        {
+          stockid:'301488',
+          stockprice:'90.01',
+          stockincrease:126.27,
+        },
+
       ],
       newslist:[{
         newsid:'1',
-        mainnews:'中国平安：前三季度净利润达到1499.49亿元，同比增长7.8%',  
+        mainnews:'风口！这些板块成为避风港？',  
         },
         {
         newsid:'2',
-        mainnews:'中国平安：前三季度净利润达到1499.49亿元，同比增长6666',  
+        mainnews:'8700亿美元！欧佩克2022年石油收入创近8年新高',  
         },
         {
-        }
+        newsid:'3',
+        mainnews:'虚构的预付款项后续会如何处置？',  
+        },
+       
+        {
+        newsid:'4',
+        mainnews:' 主力复盘：23亿资金狂买半导体 3亿砸盘拓维信息',  
+        },
+        {
+        newsid:'5',
+        mainnews:'李强主持召开平台企业座谈会',  
+        },
+        {
+        newsid:'6',
+        mainnews:'华泰证券:汽车行业景气走出低点 二季度进上行期',  
+        },
+        {
+        newsid:'7',
+        mainnews:'A股港股爆发了！原因找到了！',  
+        },
+        {
+        newsid:'8',
+        mainnews:'英伟达入场 AI为药物研发插上翅膀 CRO又行了？',  
+        },
+        {
+        newsid:'9',
+        mainnews:'虚构的预付款项后续会如何处置？',  
+        },
+        {
+        newsid:'10',
+        mainnews:'主力复盘：15亿抢筹光伏 超6亿资金拉升隆基绿能',  
+        },
+        
       ],
       
 
@@ -122,7 +193,7 @@ const activeIndex = ref('1')
           <el-col :span="7"><div class="grid-content" /></el-col>
           <el-col :span="7"><div class="grid-content" /></el-col>
           <el-col :span="3" v-if="iflogin"><div class="grid-content" >
-            <el-label >hello,{{username}}</el-label>
+            <el-label >hello,{{this.username}}</el-label>
             <el-button  @click="logout" style="margin-left: 10px;">登出</el-button>
             </div>
           </el-col>
@@ -141,6 +212,7 @@ const activeIndex = ref('1')
             <div>
               <img class="img_logo" v-bind:src="img_url" style="vertical-align:middle" alt="">
               <text class="title" >沪深股市数据分析系统</text>
+              
             </div>
           </el-col>
           <!-- 搜索框及按钮 -->
@@ -226,7 +298,6 @@ const activeIndex = ref('1')
               :row-class-name="tableRowClassName"
             >
             <el-table-column prop="stockid" label="股票代码" width="100" />
-              <el-table-column prop="stockname" label="名称" width="100" />
               <el-table-column prop="stockprice" label="均价" width="100" />
               <el-table-column prop="stockincrease" label="涨跌幅" width="100" />
             </el-table>

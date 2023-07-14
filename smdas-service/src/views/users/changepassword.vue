@@ -107,7 +107,7 @@ export  default{
             <label >密保问题：</label><label >{{ this.question }}</label><br/>
           </div>
           <div class="form">
-            <label>密保答案：</label><el-input  v-model.trim="answer" class="reginput"  placeholder="请输入密保答案"></el-input><br/>
+            <label>密保答案：</label><el-input  v-model.trim="useranswer" class="reginput"  placeholder="请输入密保答案"></el-input><br/>
           </div>
           <el-button @click.prevent="checkanswer" type="success" style="margin-left: 20%;">提交</el-button>
           <div class="form" >

@@ -6,7 +6,7 @@ export default {
       img_url:'../src/assets/logo.png',
       account:'',//zhanghao
       password:'',//密码
-      username:'',//用户名
+      username:'666',//用户名
       iflogin:false,//判断是否登录zhuangtai
       ifsuclog:false,//判断是否登录成功
     };
@@ -38,8 +38,10 @@ export default {
       else if(this.ifsuclog == true){
         this.iflogin=this.$route.query.iflogin
         this.iflogin=true;//登录成功
+        this.username=this.$route.query.username
+        this.username=response.data.username
         this.$router.push({path:'/',query:{iflogin:true,account:this.account,username:this.username}})//跳转到主页面
-        //this.username='';
+        this.username='';
       }}) 
       }
     },
@@ -86,7 +88,7 @@ export default {
             <label>账号：</label><el-input  v-model.trim="account" class="reginput"  placeholder="请输入账号"></el-input><br/>
           </div>
           <div class="form">
-            <label>密码：</label><el-input v-model.trim="password" class="reginput"  placeholder="请输入密码" ></el-input><br/>
+            <label>密码：</label><el-input v-model.trim="password" class="reginput" :show-password="false" placeholder="请输入密码" ></el-input><br/>
           </div>
           <el-link @click="handlechangepassword" style="color:blue;margin-left: 20px;">
             忘记密码
