@@ -8,12 +8,14 @@ export default {
   data(){
     return{
       img_url:'../src/assets/logo.png',
-      username:'',
+      account:'',
       password:'',
       question:'',
       answer:'',
       ifreg:false,
-      ifQA:false,  
+      ifqa:false, 
+      nickname:'',
+       
   };
   },
   methods:{
@@ -23,9 +25,9 @@ export default {
     { 
      
       //判断用户名和密码是否为空
-     if(this.username=='')
+     if(this.nickname=='')
       {
-        alert("用户名不能为空");
+        alert("昵称不能为空");
       }
      else if(this.password=='')
       {
@@ -44,28 +46,31 @@ export default {
         
     // 页面显示前的数据获取：获取参数/数据异步请求
     this.ifreg = this.$route.query.ifreg
-    this.ifQA = this.$route.query.ifQA
+    this.ifqa = this.$route.query.ifqa
+    this.account = this.$route.query.account
     // springboot  发送数据请求 参数 id    goods
-    user.register({username:this.username,password:this.password,question:this.question,answer:this.answer}).then(response => {
-      console.log(response.data)
-      this.ifreg=response.data.ifreg
-      this.ifQA=response.data.ifqa
-    }) 
-   
-        if(this.ifreg==false ){
-        
-        alert("用户已注册或用户名、密码有问题，请重试");
-      }
-        if(this.ifQA==false ){
-        
-        alert("密保问题或问题答案有问题，请重试");
-      }
-        else if(this.ifreg==true){
-        alert("注册成功");
-        //完成注册后跳转至登录页面
-        this.$router.replace('/user/login');
-      }
-      }
+    user.register({ nickname: this.nickname, password: this.password, question: this.question, answer: this.answer })
+          .then(response => {
+            console.log(response.data);
+            this.ifreg = response.data.ifreg;
+            this.ifqa = response.data.ifqa;
+            this.account = response.data.account;
+            console.log(this.ifreg);
+            console.log(this.ifqa);
+            console.log(this.account);
+              
+       if (this.ifreg == false) {
+         alert("用户已注册或用户名、密码有问题，请重试");
+       } else if (this.ifqa == false) {
+         alert("密保问题或问题答案有问题，请重试");
+       } else if (this.ifreg == true && this.ifqa == true) {
+         alert(this.account);
+         alert("以上为你的账号，注册成功");
+         // 完成注册后跳转至登录页面
+         this.$router.replace('/user/login');
+       }})
+        }  
+      
     },
    
   },
@@ -94,10 +99,11 @@ export default {
         <div style="margin-left: 100px;">
           <el-space direction="vertical">
           <div class="form">
-            <label>用户名：</label><el-input  v-model.trim="username" class="reginput" placeholder="请输入用户名"></el-input><br/>
+            <label>用户名：</label><el-input  v-model.trim="nickname" class="reginput" placeholder="请输入用户名"></el-input><br/>
           </div>
           <div class="form">
-            <label>密码：</label><el-input v-model.trim="password" class="reginput"  placeholder="请输入密码"></el-input><br/>
+            <label>密码：</label><el-input v-model.trim="password" class="reginput" 
+				:show-password="false" placeholder="请输入密码"></el-input><br/>
           </div>
           <div class="form">
             <label>密保问题：</label><el-input  v-model.trim="question" class="reginput"  placeholder="请输入密保问题"></el-input><br/>

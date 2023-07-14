@@ -7,16 +7,16 @@ const user = {
     },
 
     register(data){
-        return api.post('api/user/reg',data)
+        return api.post('api/user/register',data)
     },
     changePass(data){
         return api.post('api/user/chan_pass',data)
     },
-    getQ(data){
+    getSecurityQuestion(data){
         return api.post('api/user/get_security_question',data)
     },
-    getA(data){
-        return api.post('api/user/get_security_answer',data)
+    checkAnswer(data){
+        return api.post('api/user/check_answer',data)
     },
 
 }
